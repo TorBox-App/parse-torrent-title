@@ -799,6 +799,11 @@ describe("Parsing episode", () => {
         expect(parse(releaseName)).to.deep.include({ season: 4, episode: 16 });
     });
 
+    it("should not detect polish episode", () => {
+        const releaseName = "Reset- odc. 10.mp4";
+        expect(parse(releaseName)).to.deep.include({ episode: 10 });
+    });
+
     xit("should not detect season-episode pattern when it's a date", () => {
         const releaseName = "8-6 2006.07.16.avi";
         expect(parse(releaseName)).to.deep.include({ season: 8, episode: 6 });
@@ -817,8 +822,13 @@ describe("Parsing episode", () => {
     });
 
     it("should detect regular episode with year range before", () => {
-        const releaseName = "'Lucky.Luke.1983-1992.S01E04.PL.720p.WEB-DL.H264-zyl.mkv'";
+        const releaseName = "Lucky.Luke.1983-1992.S01E04.PL.720p.WEB-DL.H264-zyl.mkv";
         expect(parse(releaseName)).to.deep.include({ episodes: [4] });
+    });
+
+    it("should detect season dot episode format", () => {
+        const releaseName = "11.14 - The List.mp4";
+        expect(parse(releaseName)).to.deep.include({ seasons: [11], episodes: [14] });
     });
 
     it("should detect only episode v2", () => {

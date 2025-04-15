@@ -135,4 +135,9 @@ describe("Parsing title", () => {
         const releaseName = "Yurusarezaru_mono2.srt";
         expect(parse(releaseName)).to.deep.include({ title: "Yurusarezaru mono2" });
     });
+
+    it("should not detect season prefix in title", () => {
+        const releaseName = "COMPASS2.0.ANIMATION.PROJECT.S01E02.Will.You.Be.My.Partner.1080p.CR.WEB-DL.JPN.AAC2.0.H.264.MSubs-ToonsHub.mkv";
+        expect(parse(releaseName)).to.deep.include({ title: "COMPASS2 0 ANIMATION PROJECT" });
+    });
 });

@@ -7,6 +7,8 @@ declare namespace ParseTorrentTitle {
         skipFromTitle?: boolean;
         /** Whether to skip this matcher if there are no other groups matched before it's matchIndex */
         skipIfFirst?: boolean;
+        /** Whether to skip this matcher if it appears before specified matcher group in the name */
+        skipIfBefore?: Array<string>;
         /** Whether to remove the found match from further matchers */
         remove?: boolean;
     }

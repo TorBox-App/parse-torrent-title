@@ -552,4 +552,14 @@ describe("Parsing season", () => {
         const releaseName = "Apollo 13 (1995) [1080p] [WEB-DL] [x264] [E-AC3-S78] [Lektor PL]";
         expect(parse(releaseName)).to.not.have.property("season");
     });
+
+    it("should not detect season dot episode notation when it's a title", () => {
+        const releaseName = "3.10 to Yuma (2007).mkv";
+        expect(parse(releaseName)).to.not.have.property("season");
+    });
+
+    it("should not detect season dot episode notation when there is year in name", () => {
+        const releaseName = "18.11 - A Code Of Secrecy (2014) x264 1080p-AAC-ESUB [Parth].mkv";
+        expect(parse(releaseName)).to.not.have.property("season");
+    });
 });
