@@ -7,31 +7,15 @@ const ALT_TITLES_REGEX = new RegExp(`[^/|(]*[${NON_ENGLISH_CHARS}][^/|]*[/|]|[/|
 const NOT_ONLY_NON_ENGLISH_REGEX = new RegExp(`(?<=[a-zA-Z][^${NON_ENGLISH_CHARS}]+)[${NON_ENGLISH_CHARS}].*[${NON_ENGLISH_CHARS}]|[${NON_ENGLISH_CHARS}].*[${NON_ENGLISH_CHARS}](?=[^${NON_ENGLISH_CHARS}]+[a-zA-Z])`, "g");
 const NOT_ALLOWED_SYMBOLS_AT_START_AND_END = new RegExp(`^[^\\w${NON_ENGLISH_CHARS}#[【★]+|[ \\-:/\\\\[|{(#$&^]+$`, "g");
 const REMAINING_NOT_ALLOWED_SYMBOLS_AT_START_AND_END = new RegExp(`^[^\\w${NON_ENGLISH_CHARS}#]+|[[\\]({} ]+$`, "g");
+const DEFAULT_OPTIONS = {
+    skipIfAlreadyFound: true, // whether to skip a matcher if another matcher from this group was already found
+    skipFromTitle: false, // whether to exclude found match from the end result title
+    skipIfFirst: false, // whether to skip this matcher if there are no other groups matched before it's matchIndex
+    remove: false // whether to remove the found match from further matchers
+};
 
 function extendOptions(options) {
-    options = options || {};
-
-    const defaultOptions = {
-        skipIfAlreadyFound: true, // whether to skip a matcher if another matcher from this group was already found
-        skipFromTitle: false, // whether to exclude found match from the end result title
-        skipIfFirst: false, // whether to skip this matcher if there are no other groups matched before it's matchIndex
-        remove: false // whether to remove the found match from further matchers
-    };
-
-    if (typeof options.skipIfAlreadyFound === "undefined") {
-        options.skipIfAlreadyFound = defaultOptions.skipIfAlreadyFound;
-    }
-    if (typeof options.skipFromTitle === "undefined") {
-        options.skipFromTitle = defaultOptions.skipFromTitle;
-    }
-    if (typeof options.skipIfFirst === "undefined") {
-        options.skipIfFirst = defaultOptions.skipIfFirst;
-    }
-    if (typeof options.remove === "undefined") {
-        options.remove = defaultOptions.remove;
-    }
-
-    return options;
+    return { ...DEFAULT_OPTIONS, ...options };
 }
 
 function createHandlerFromRegExp(name, regExp, transformer, options) {
